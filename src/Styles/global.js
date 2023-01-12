@@ -49,4 +49,35 @@ export const GlobalStyles  = createGlobalStyle`
         opacity: 0;
     }
 
+    .current{
+        border-left: 1px solid;
+        animation: blinking 2s infinite;
+        @keyframes blinking{
+            0% {border-left-color: white;}
+            25% {border-left-color: black;}
+            50% {border-left-color: white;}
+            75% {border-left-color: black;}
+        }
+    }
+
+    .current-right{
+        border-right: 1px solid;
+        animation: blinkingRight 2s infinite;
+        @keyframes blinkingRight{
+            0% {border-right-color: white;}
+            25% {border-right-color: black;}
+            50% {border-right-color: white;}
+            75% {border-right-color: black;}
+            100% {border-right-color: white;}
+        }
+    }
+
+    .correct{
+        color: green;
+    }
+
+    .incorrect{
+        color: red;
+    }
+
 `
