@@ -7,8 +7,8 @@ export const GlobalStyles  = createGlobalStyle`
     }
 
     body{
-        background: black;
-        color: white;
+        background: ${({theme}) => theme.background};
+        color: ${({theme}) => theme.title};
         padding: 0;
         margin: 0;
         transition: all 0.25s linear;
@@ -38,6 +38,7 @@ export const GlobalStyles  = createGlobalStyle`
         flex-wrap: wrap;
         align-content: center;
         font-size: 33px;
+        color: ${({theme}) => theme.typeBoxText};
     }
 
     .word{
@@ -78,6 +79,36 @@ export const GlobalStyles  = createGlobalStyle`
 
     .incorrect{
         color: red;
+    }
+
+    .upper-menu{
+        display:flex;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: space-between;
+        font-size: 1.3rem;
+        padding: 0.5rem;
+    }
+
+    .modes{
+        display:flex;
+    }
+    .mode{
+        margin-right: 7px;
+    }
+
+    .mode:hover{
+        color: green;
+        cursor: pointer;
+    }
+
+    .footer{
+        display: flex;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        justify-content: space-between;
     }
 
 `
