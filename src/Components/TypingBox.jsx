@@ -1,6 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from 'react'
 import { useTestMode } from '../Context/TestModeContext';
 import UpperMenu from './UpperMenu';
+import Stats from './Stats';
 
 const TypingBox = ({ words }) => {
 
@@ -10,10 +11,18 @@ const TypingBox = ({ words }) => {
     const [countDown, setCountDown] = useState(testTime); // -> 15s countdown
     const [testStart, setTestStart] = useState(false);
     const [testEnd, setTestEnd] = useState(false);
+    const [correctChars, setCorrectChars] = useState(0);
+    const [correctWords, setCorrectWords] = useState(0);
+    const [incorrectChars, setIncorrectChars] = useState(0);
+    const [missedChars, setMissedChars] = useState(0);
+    const [extraChars, setExtraChars] = useState(0);
+    const [graphData, setGraphData] = useState([]);
 
-    const inputRef = useRef(null);
 
-    const wordSpanRef = Array(words.length).fill(-1).map(i => createRef());
+    const inputRef = useRef(null); // -> {current:<input/>}
+
+    const wordSpanRef = Array(words.length).fill(0).map(i => createRef());
+
     // console.log("context value",useTestMode());
 
     const startTimer = () => {
@@ -22,6 +31,14 @@ const TypingBox = ({ words }) => {
 
         function timer() {
             setCountDown((currCountDown) => {
+
+                setCorrectChars((correctChars)=>{
+                    setGraphData((prevGraphData)=>{
+                        return [...prevGraphData, [testTime-currCountDown, Math.round((correctChars/5)/((testTime-currCountDown+1)/60))]]
+                    })
+                    return correctChars;
+                });
+
                 if (currCountDown === 1) {
                     clearInterval(intervalId);
                     setTestEnd(true);
@@ -35,6 +52,7 @@ const TypingBox = ({ words }) => {
 
     const handleKeyDown = (e) => {
 
+
         if (!testStart) {
             startTimer();
             setTestStart(true);
@@ -44,6 +62,11 @@ const TypingBox = ({ words }) => {
         if (e.keyCode === 32) {
             //space is pressed
 
+            const correctChars = wordSpanRef[currWordIndex].current.querySelectorAll('.correct');
+
+            if(correctChars.length === allChildrenSpans.length){
+                setCorrectWords(correctWords+1);
+            }
 
             if (allChildrenSpans.length <= currCharIndex) {
                 // remove current-right cursor
@@ -51,6 +74,7 @@ const TypingBox = ({ words }) => {
             }
             else {
                 //remove my current cursor
+                setMissedChars(missedChars+(allChildrenSpans.length-currCharIndex));
                 allChildrenSpans[currCharIndex].className = 'char';
             }
 
@@ -85,6 +109,7 @@ const TypingBox = ({ words }) => {
         if (currCharIndex === allChildrenSpans.length) {
             // add new character after the word
 
+            setExtraChars(extraChars+1);
             let newSpan = document.createElement('span'); // -> <span></span>
             newSpan.innerText = e.key;
             newSpan.className = 'char incorrect current-right extra';
@@ -97,9 +122,11 @@ const TypingBox = ({ words }) => {
 
         if (e.key === allChildrenSpans[currCharIndex].innerText) {
             allChildrenSpans[currCharIndex].className = 'char correct';
+            setCorrectChars(correctChars+1);
         }
         else {
             allChildrenSpans[currCharIndex].className = 'char incorrect';
+            setIncorrectChars(incorrectChars+1);
         }
 
         if (currCharIndex + 1 === allChildrenSpans.length) {
@@ -114,6 +141,13 @@ const TypingBox = ({ words }) => {
 
     }
 
+    const calculateWPM = ()=>{
+        return Math.round((correctChars/5)/(testTime/60));
+    }
+
+    const calculateAccuracy = ()=>{
+        return Math.round((correctWords/currWordIndex)*100);
+    }
 
     const focusInput = () => {
         inputRef.current.focus();
@@ -132,7 +166,7 @@ const TypingBox = ({ words }) => {
     return (
         <div>
             <UpperMenu countDown={countDown}/>
-            {(testEnd) ? (<h1>Test over!</h1>) : (
+            {(testEnd) ? (<Stats wpm={calculateWPM()} graphData={graphData} accuracy={calculateAccuracy()} correctChars={correctChars} incorrectChars={incorrectChars} extraChars={extraChars} missedChars={missedChars}/>) : (
                 <div className="type-box" onClick={focusInput}>
                     <div className="words">
                         {words.map((word, index) => (

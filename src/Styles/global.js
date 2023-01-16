@@ -111,4 +111,31 @@ export const GlobalStyles  = createGlobalStyle`
         justify-content: space-between;
     }
 
+    .stats-comp{
+        display: flex;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .left{
+        width: 30%;
+        padding: 30px;
+    }
+    .right{
+        width: 70%;
+    }
+    .title{
+        font-size: 20px;
+        color: ${({theme}) => theme.typeBoxText};
+
+    }
+
+    .subtitle{
+        font-size: 30px;
+        color: ${({theme}) => theme.title};
+    }
+
+
+
 `

@@ -3,10 +3,12 @@ import Footer from "./Components/Footer";
 import TypingBox from "./Components/TypingBox";
 import { GlobalStyles } from "./Styles/global";
 import { useTheme } from "./Context/ThemeContext";
+import { auth } from "./firebaseConfig";
 var randomWords = require('random-words');
 
 function App() {
 
+  console.log(auth);
   const words = randomWords(100);
   const {theme} = useTheme();
   return (
