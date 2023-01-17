@@ -103,7 +103,7 @@ export const GlobalStyles  = createGlobalStyle`
         cursor: pointer;
     }
 
-    .footer{
+    .footer, .header{
         display: flex;
         width: 1000px;
         margin-left: auto;
