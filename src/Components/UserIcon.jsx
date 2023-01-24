@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { AppBar, Modal, Tab, Tabs } from '@mui/material';
+import { AppBar, Modal, Tab, Tabs, Box } from '@mui/material';
 import { useTheme } from '../Context/ThemeContext';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -8,6 +8,8 @@ import { auth } from '../firebaseConfig';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import GoogleButton from 'react-google-button';
+import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
 
 const UserIcon = () => {
 
@@ -38,6 +40,27 @@ const UserIcon = () => {
 
     }
 
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+
+    const signInWithGoogle = ()=>{
+
+        signInWithPopup(auth, googleProvider).then((res)=>{
+            alert("sign in with google successfull");
+        }).catch((err)=>{
+            alert("sign in with google failed");
+        })
+
+    }
+
+    const signInWithGithub = ()=>{
+        signInWithPopup(auth, githubProvider).then((res)=>{
+            alert("sign in with github success");
+        }).catch((err)=>{
+            alert("sign in with github failed" + err);
+        })
+    }
+
     const logout = ()=>{
         auth.signOut();
     }
@@ -61,7 +84,7 @@ const UserIcon = () => {
                 }}
             >
                 
-                <div style={{width: '400px'}}>
+                <div style={{width: '400px', textAlign:'center'}}>
 
                     <AppBar position='static' style={{backgroundColor:'transparent'}}>
                         <Tabs
@@ -75,6 +98,16 @@ const UserIcon = () => {
                     </AppBar>
                     {value===0 && <LoginForm handleClose={handleClose}/>}
                     {value===1 && <SignupForm handleClose={handleClose}/>}
+
+                    <Box>
+                        <span>OR</span>
+                        <GoogleButton 
+                            style={{
+                                width: '100%',
+                                marginTop: '10px'
+                            }}
+                            onClick={signInWithGoogle}/>
+                    </Box>
                 </div>
 
         </Modal>

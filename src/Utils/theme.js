@@ -27,6 +27,12 @@ const nautilis = {
     typeBoxText: '#0B4C6C'
 }
 
+const purple = {
+    label: "Purple",
+    title: "pink",
+    background: "purple",
+    typeBoxText: "white"
+}
 
 
 
@@ -35,5 +41,6 @@ export const themeOptions = [
     {value: darkTheme, label: 'Dark'},
     {value: redTheme, label: 'Red'},
     {value: greenTheme, label: 'Green'},
-    {value: nautilis, label: 'Nautilis'}
+    {value: nautilis, label: 'Nautilis'},
+    {value: purple, label: "Purple"}
 ];

@@ -1,5 +1,7 @@
 import React from 'react'
 import Graph from './Graph'
+import { auth, db } from '../firebaseConfig';
+import { useEffect } from 'react';
 
 const Stats = ({wpm, accuracy, graphData, correctChars, incorrectChars, extraChars, missedChars}) => {
 
@@ -11,6 +13,33 @@ const Stats = ({wpm, accuracy, graphData, correctChars, incorrectChars, extraCha
             return true;
         }
     });
+
+    const pushDataToDb = ()=>{
+        const ref = db.collection('Results');
+        const {uid} = auth.currentUser;
+        ref.add({
+            wpm: wpm,
+            accuracy: accuracy,
+            characters: `${correctChars}/${incorrectChars}/${extraChars}/${missedChars}`,
+            timestamp: new Date(),
+            userID: uid
+        }).then((res)=>{
+            alert("result saved to db");
+        }).catch((err)=>{
+            alert("not able to save data");
+        });
+    }
+
+    useEffect(()=>{
+        if(auth.currentUser){
+            pushDataToDb();
+        }
+        else{
+            alert("login to save results");
+        }  
+    },[])
+
+
 
   return (
     <div className="stats-comp">

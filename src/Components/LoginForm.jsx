@@ -13,7 +13,7 @@ const LoginForm = ({handleClose}) => {
             alert("Fill all the details");
             return;
         }
-
+        
         //login user here
         auth.signInWithEmailAndPassword(email,password).then((res)=>{
             alert("user logged in");
