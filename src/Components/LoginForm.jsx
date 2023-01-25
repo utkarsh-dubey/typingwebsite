@@ -2,6 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { auth } from '../firebaseConfig';
 import { useTheme } from '../Context/ThemeContext';
+import { toast } from 'react-toastify';
 
 const LoginForm = ({handleClose}) => {
 
@@ -10,13 +11,31 @@ const LoginForm = ({handleClose}) => {
     const {theme} = useTheme();
     const handleSubmit = ()=>{
         if(!email || !password){
-            alert("Fill all the details");
+            toast('Fill all the details', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             return;
         }
         
         //login user here
         auth.signInWithEmailAndPassword(email,password).then((res)=>{
-            alert("user logged in");
+            toast('User Logged In', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             handleClose();
         })
         .catch((err)=>{

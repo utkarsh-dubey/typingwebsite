@@ -2,6 +2,7 @@ import React from 'react'
 import Graph from './Graph'
 import { auth, db } from '../firebaseConfig';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const Stats = ({wpm, accuracy, graphData, correctChars, incorrectChars, extraChars, missedChars}) => {
 
@@ -24,9 +25,28 @@ const Stats = ({wpm, accuracy, graphData, correctChars, incorrectChars, extraCha
             timestamp: new Date(),
             userID: uid
         }).then((res)=>{
-            alert("result saved to db");
+    
+            toast('result saved to db', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         }).catch((err)=>{
-            alert("not able to save data");
+            toast('not able to save result to db', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         });
     }
 
@@ -35,7 +55,16 @@ const Stats = ({wpm, accuracy, graphData, correctChars, incorrectChars, extraCha
             pushDataToDb();
         }
         else{
-            alert("login to save results");
+            toast('login to save results', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         }  
     },[])
 

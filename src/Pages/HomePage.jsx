@@ -10,16 +10,12 @@ var randomWords = require('random-words');
 function HomePage() {
 
   const words = randomWords(100);
-  const {theme} = useTheme();
   return (
-    <ThemeProvider theme={theme}>
       <div className="canvas">
-        <GlobalStyles/>
         <Header/>
         <TypingBox words={words}/>
         <Footer/>
       </div>
-    </ThemeProvider> 
   );
 }
 

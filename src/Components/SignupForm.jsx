@@ -2,6 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { auth } from '../firebaseConfig';
 import { useTheme } from '../Context/ThemeContext';
+import { toast } from 'react-toastify';
 
 const SignupForm = ({handleClose}) => {
 
@@ -10,26 +11,61 @@ const SignupForm = ({handleClose}) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const {theme} = useTheme();
     const handleSubmit = ()=>{
-
         if(!email || !password || !confirmPassword){
-            alert("Fill all the details");
+            toast('Fill all the details', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             return;
         }
 
         if(password!==confirmPassword){
-            alert("Password Mismatch");
+            toast('Password mismatch', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             return;
         }
 
         // signup the user
 
         auth.createUserWithEmailAndPassword(email, password).then((res)=>{
-            alert("user created");
+            toast('User Created', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
             handleClose();
             console.log('user created');
         })
         .catch((err)=>{
-            console.log("user not created", err);
+            toast('Not able to create user, try again later', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         })
 
 

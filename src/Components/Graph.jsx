@@ -10,6 +10,7 @@ import {
     Legend,
     LineElement
 } from 'chart.js';
+import { useTheme } from '../Context/ThemeContext';
 
 ChartJS.register(
     CategoryScale,
@@ -21,18 +22,19 @@ ChartJS.register(
 );
 
 
-const Graph = ({graphData}) => {
+const Graph = ({graphData, type}) => {
+    const {theme} = useTheme();
   return (
     <div>
         <Line   
             data={
                 {
-                    labels: graphData.map(i=>i[0]+1),
+                    labels: (type==='date')? graphData.map(i=>i[0].toDate().toLocaleString().split(',')[0]) : graphData.map(i=>i[0]+1),
                     datasets: [
                         {
                             data: graphData.map(i=>i[1]),
                             label: 'wpm',
-                            borderColor: 'gold'
+                            borderColor: theme.title
                         }
                     ]
                 }

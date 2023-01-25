@@ -12,6 +12,11 @@ export const GlobalStyles  = createGlobalStyle`
         padding: 0;
         margin: 0;
         transition: all 0.25s linear;
+        overflow-y: scroll;
+    }
+
+    body::-webkit-scrollbar{
+        display: none;
     }
 
     .canvas{
@@ -135,7 +140,45 @@ export const GlobalStyles  = createGlobalStyle`
         font-size: 30px;
         color: ${({theme}) => theme.title};
     }
+    .resulttable, .userpage-graph{
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
+    .user-profile{
+        display: flex;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 20px;
+        background: ${({theme})=>theme.title};
+        color: ${({theme})=>theme.background};
+        min-height: 200px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .user{
+        width: 50%;
+        display: flex;
+        padding: 1rem;
+        font-size: 1.5rem;
+        border-right: 2px solid;
+    }
+
+    .info{
+        width: 60%;
+    }
+
+    .profile-picture{
+        width: 40%;
+    }
+
+    .total-tests{
+        width: 50%;
+        font-size: 3rem;
+    }
 
 
 `

@@ -10,6 +10,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from 'react-google-button';
 import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 const UserIcon = () => {
 
@@ -46,9 +47,27 @@ const UserIcon = () => {
     const signInWithGoogle = ()=>{
 
         signInWithPopup(auth, googleProvider).then((res)=>{
-            alert("sign in with google successfull");
+            toast('sign in with google successfull', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         }).catch((err)=>{
-            alert("sign in with google failed");
+            toast('sign in with google unsuccessfull', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
         })
 
     }
@@ -62,7 +81,18 @@ const UserIcon = () => {
     }
 
     const logout = ()=>{
-        auth.signOut();
+        auth.signOut().then((res)=>{
+            toast('logged out', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+        });
     }
 
     const {theme} = useTheme();
