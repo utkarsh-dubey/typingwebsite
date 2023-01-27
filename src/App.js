@@ -6,6 +6,7 @@ import { GlobalStyles } from "./Styles/global";
 import { useTheme } from "./Context/ThemeContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ComparePage from "./Pages/ComparePage";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage/>}></Route>
         <Route path='/user' element={<UserPage/>}/>
+        <Route path='/compare/:username' element={<ComparePage/>}/>
       </Routes>
     </ThemeProvider>
   );

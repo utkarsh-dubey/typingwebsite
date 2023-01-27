@@ -180,5 +180,19 @@ export const GlobalStyles  = createGlobalStyle`
         font-size: 3rem;
     }
 
+    .logo{
+        display: flex;
+        gap: 10px;
+    }
+
+    .compare-btn{
+        cursor: pointer;
+        background: ${({theme})=>theme.title};
+        color: ${({theme})=>theme.background};
+        padding: 0.3rem;
+        border-radius: 5px;
+        margin-top: -5px;
+    }
+
 
 `

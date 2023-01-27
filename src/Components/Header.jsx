@@ -1,6 +1,7 @@
 import React from 'react'
 import UserIcon from './UserIcon'
 import { Modal } from '@mui/material'
+import CompareBtn from './CompareBtn'
 
 const Header = () => {
 
@@ -10,7 +11,12 @@ const Header = () => {
     <div className="header">
 
         <div className="logo">
-            LOGO
+            <span>
+              LOGO
+            </span>
+            <div>
+              <CompareBtn/>
+            </div>
         </div>
 
         <div className="user-icon">

@@ -4,7 +4,7 @@ import { AppBar, Modal, Tab, Tabs, Box } from '@mui/material';
 import { useTheme } from '../Context/ThemeContext';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
@@ -46,7 +46,12 @@ const UserIcon = () => {
 
     const signInWithGoogle = ()=>{
 
-        signInWithPopup(auth, googleProvider).then((res)=>{
+        signInWithPopup(auth, googleProvider).then(async(res)=>{
+
+            const ref = await db.collection('usernames').doc(res.user.email).set({
+                uid: res.user.uid
+            });
+
             toast('sign in with google successfull', {
                 position: "top-right",
                 autoClose: 5000,

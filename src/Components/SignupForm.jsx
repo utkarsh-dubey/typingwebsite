@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from '@mui/material'
 import React, { useState } from 'react'
-import { auth } from '../firebaseConfig';
+import { auth, db } from '../firebaseConfig';
 import { useTheme } from '../Context/ThemeContext';
 import { toast } from 'react-toastify';
 
@@ -8,10 +8,19 @@ const SignupForm = ({handleClose}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const {theme} = useTheme();
-    const handleSubmit = ()=>{
-        if(!email || !password || !confirmPassword){
+
+    const checkUsernameAvailability = async()=>{
+        const ref = db.collection('usernames');
+        const response = await ref.doc(username).get();
+        return !response.exists;
+    }
+
+
+    const handleSubmit = async()=>{
+        if(!email || !password || !confirmPassword || !username){
             toast('Fill all the details', {
                 position: "top-right",
                 autoClose: 5000,
@@ -41,8 +50,39 @@ const SignupForm = ({handleClose}) => {
 
         // signup the user
 
-        auth.createUserWithEmailAndPassword(email, password).then((res)=>{
-            toast('User Created', {
+        if(await checkUsernameAvailability()){
+            auth.createUserWithEmailAndPassword(email, password).then(async(res)=>{
+
+                const ref = await db.collection('usernames').doc(username).set({
+                    uid: res.user.uid
+                });
+                toast('User Created', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
+                handleClose();
+            })
+            .catch((err)=>{
+                toast('Not able to create user, try again later', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    });
+            })
+        }
+        else{
+            toast('Username taken, choose some other username', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -52,21 +92,9 @@ const SignupForm = ({handleClose}) => {
                 progress: undefined,
                 theme: "dark",
                 });
-            handleClose();
-            console.log('user created');
-        })
-        .catch((err)=>{
-            toast('Not able to create user, try again later', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-                });
-        })
+        }
+
+        
 
 
 
@@ -80,6 +108,26 @@ const SignupForm = ({handleClose}) => {
             flexDirection: 'column',
             gap: '15px'
         }}>
+            <TextField
+            type='text'
+            variant='outlined'
+            label='Enter Username'
+            InputLabelProps={
+                {
+                    style: {
+                        color: theme.title
+                    }
+                }
+            }
+            InputProps={{
+                style: {
+                    color: theme.title
+                }
+            }}
+            onChange = {(e)=>setUsername(e.target.value)}>
+
+        </TextField>
+
         <TextField
             type='email'
             variant='outlined'
